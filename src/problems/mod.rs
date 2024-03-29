@@ -5,3 +5,5 @@ pub mod is_palindrome;
 pub mod plus_one;
 pub mod find_median_sorted_arrays;
 pub mod search_insert;
+
+pub mod binary_search;
