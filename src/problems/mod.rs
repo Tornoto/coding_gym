@@ -7,3 +7,4 @@ pub mod find_median_sorted_arrays;
 pub mod search_insert;
 pub mod binary_search;
 pub mod add_binary;
+pub mod sort_colors;
