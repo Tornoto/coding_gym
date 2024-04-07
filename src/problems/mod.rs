@@ -8,3 +8,4 @@ pub mod search_insert;
 pub mod binary_search;
 pub mod add_binary;
 pub mod sort_colors;
+pub mod group_anagrams;
