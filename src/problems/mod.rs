@@ -10,3 +10,4 @@ pub mod add_binary;
 pub mod sort_colors;
 pub mod group_anagrams;
 pub mod rotate;
+pub mod permute;
