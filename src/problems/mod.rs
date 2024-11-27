@@ -11,3 +11,4 @@ pub mod sort_colors;
 pub mod group_anagrams;
 pub mod rotate;
 pub mod permute;
+pub mod string;
