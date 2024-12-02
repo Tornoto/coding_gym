@@ -1,6 +1,12 @@
 #[allow(unused)]
 /// https://leetcode.com/problems/reverse-words-in-a-string/
-/// pass leetcode
+/// basic idea:
+/// suppose we have string like: '---hello--world!--' (use - to replace space)
+/// we first reverse the whole sentence and get
+/// '--!dlrow--olleh---' then we flip '--!dlrow' and get
+/// 'world!----olleh---' then we flip '---olleh' and get
+/// 'world! hello------' then we try to flip the rest
+/// finally we trim the spaces at the end.
 pub fn reverse_words(s: String) -> String {
     println!("full len: {:?}", s.len());
     let mut words: Vec<char> = s.chars().rev().collect();
@@ -9,6 +15,9 @@ pub fn reverse_words(s: String) -> String {
     let end = words.len();
 
     while start < end {
+        // TODO!
+        // find_first_space_after_none_space can be improved to count space in accumulation.
+        // and fsans do not need to go back to fsans - space_count + 1
         let (space_count, fsans) = find_first_space_after_none_space(&words, start);
         words[start..fsans].reverse();
         println!("itr: {:?}|", words.clone().into_iter().collect::<String>());
