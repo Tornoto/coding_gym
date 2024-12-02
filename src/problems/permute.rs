@@ -7,7 +7,7 @@ pub fn permute(mut nums: Vec<i32>) -> Vec<Vec<i32>> {
 
 pub fn backtrack(res: &mut Vec<Vec<i32>>, nums: &mut Vec<i32>, first: usize, len: usize) {
     // 如果所有的都填完了
-    if (first == len) {
+    if first == len {
         res.push(nums.clone());
         return;
     }
