@@ -37,26 +37,12 @@ pub fn preorder_iteration(root: &Option<Rc<RefCell<TreeNode>>>, result: &mut Vec
 #[cfg(test)]
 mod test {
     use super::*;
+    use crate::problems::tree::binary_tree;
 
     #[test]
     fn test_preorder_recursive() {
-        let tn1: Rc<RefCell<TreeNode>> = Rc::new(RefCell::new(TreeNode::new(1)));
-        let tn2: Rc<RefCell<TreeNode>> = Rc::new(RefCell::new(TreeNode::new(2)));
-        let tn3: Rc<RefCell<TreeNode>> = Rc::new(RefCell::new(TreeNode::new(3)));
-        let tn4: Rc<RefCell<TreeNode>> = Rc::new(RefCell::new(TreeNode::new(4)));
-        let tn5: Rc<RefCell<TreeNode>> = Rc::new(RefCell::new(TreeNode::new(5)));
-        let tn6: Rc<RefCell<TreeNode>> = Rc::new(RefCell::new(TreeNode::new(6)));
-        let tn7: Rc<RefCell<TreeNode>> = Rc::new(RefCell::new(TreeNode::new(7)));
-        let tn8: Rc<RefCell<TreeNode>> = Rc::new(RefCell::new(TreeNode::new(8)));
-        let tn9: Rc<RefCell<TreeNode>> = Rc::new(RefCell::new(TreeNode::new(9)));
-        tn1.borrow_mut().set(Some(tn2.clone()), Some(tn3.clone()));
-        tn2.borrow_mut().set(Some(tn4), Some(tn5.clone()));
-        tn3.borrow_mut().set(None, Some(tn8.clone()));
-        tn5.borrow_mut().set(Some(tn6), Some(tn7));
-        tn8.borrow_mut().set(Some(tn9), None);
-
-        let result = preorder_traversal(Some(tn1));
-
+        let root = binary_tree::get_test_case();
+        let result = preorder_traversal(root);
         println!("result: {:?}", result);
         println!("stand : {:?}", vec![1, 2, 4, 5, 6, 7, 3, 8, 9]);
     }
