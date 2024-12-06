@@ -12,5 +12,6 @@ pub mod search_insert;
 pub mod sort_colors;
 pub mod stack_queue;
 pub mod string;
+pub mod tree;
 pub mod two_pointers;
 pub mod two_sum;
