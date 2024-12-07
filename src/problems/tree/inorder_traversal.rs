@@ -55,6 +55,48 @@ pub fn inorder_traversal_iteration(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i
     result
 }
 
+/// Morris algorithm to solve inorder traversal
+/// [Inorder Tree Traversal without recursion and without stack!](https://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/)
+pub fn inorder_morris(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
+    let mut result = vec![];
+    let mut cur = root;
+
+    while let Some(node) = cur.clone() {
+        // if cur node has a left child
+        if let Some(left) = node.borrow().left.clone() {
+            // get the predecessor of cur node
+            let mut prev = left;
+            while let Some(right) = prev.clone().borrow().right.clone() {
+                // if right.as_ptr() == node.as_ptr() {
+                //     break;
+                // }
+                if *right.borrow() == *node.borrow() {
+                    break;
+                }
+                prev = right;
+            }
+
+            // if predecessor has right child, in this condition, the child is some 'cur' node
+            //Revert the changes made in the tree structure
+            if prev.borrow().right.is_some() {
+                result.push(node.borrow().val);
+                prev.borrow_mut().right = None;
+                cur = node.borrow().right.clone();
+            } else {
+                // if predecessor of cur node has no right child
+                // set cur node as it's predecessor's right child
+                prev.borrow_mut().right = Some(node.clone());
+                // move cur node to its left child
+                cur = node.borrow().left.clone();
+            }
+        } else {
+            result.push(node.borrow().val);
+            cur = node.borrow().right.clone();
+        }
+    }
+    result
+}
+
 #[cfg(test)]
 mod test {
     use super::*;
@@ -63,8 +105,10 @@ mod test {
     #[test]
     fn test_preorder_recursive() {
         let root = binary_tree::get_test_case();
-        let result = inorder_traversal(root);
+        let result = inorder_traversal(root.clone());
         println!("result: {:?}", result);
         println!("stand : {:?}", vec![4, 2, 6, 5, 7, 1, 3, 9, 8]);
+        let result = inorder_morris(root.clone());
+        println!("result: {:?}", result);
     }
 }
