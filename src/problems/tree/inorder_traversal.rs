@@ -24,9 +24,8 @@ fn inorder_iteration(root: Option<Rc<RefCell<TreeNode>>>, result: &mut Vec<i32>)
 
     while !cur_node.is_none() || !stack.is_empty() {
         while let Some(node) = cur_node {
-            let node_borrowed = node.borrow();
             stack.push(node.clone());
-            cur_node = node_borrowed.left.clone();
+            cur_node = node.borrow().left.clone();
         }
 
         if let Some(node) = stack.pop() {
