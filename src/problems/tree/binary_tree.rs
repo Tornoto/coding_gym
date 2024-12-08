@@ -27,6 +27,15 @@ impl TreeNode {
     }
 }
 
+/// ```
+///        1
+///     /     \
+///    2       3
+///   / \       \
+///  4   5       8    
+///     / \     /
+///    6   7   9
+/// ```
 pub fn get_test_case() -> Option<Rc<RefCell<TreeNode>>> {
     let tn1: Rc<RefCell<TreeNode>> = Rc::new(RefCell::new(TreeNode::new(1)));
     let tn2: Rc<RefCell<TreeNode>> = Rc::new(RefCell::new(TreeNode::new(2)));
