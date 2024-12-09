@@ -4,3 +4,4 @@ pub mod level_order_traversal;
 pub mod manipulate;
 pub mod postorder_traversal;
 pub mod preorder_traversal;
+pub mod symmetric;

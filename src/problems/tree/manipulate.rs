@@ -2,6 +2,7 @@ use std::{cell::RefCell, rc::Rc};
 
 use super::binary_tree::TreeNode;
 
+/// https://leetcode.com/problems/invert-binary-tree/description/
 pub fn invert_tree(root: Option<Rc<RefCell<TreeNode>>>) -> Option<Rc<RefCell<TreeNode>>> {
     let mut stack = vec![];
     if let Some(node) = root.clone() {
