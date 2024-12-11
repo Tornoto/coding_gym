@@ -26,6 +26,30 @@ pub fn max_depth(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
     max_depth
 }
 
+pub fn max_depth_rec(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
+    max_depth_rec_sub(root, 0)
+}
+
+fn max_depth_rec_sub(root: Option<Rc<RefCell<TreeNode>>>, depth: i32) -> i32 {
+    let mut depth = depth;
+    if let Some(node) = root {
+        let left = node.borrow().left.clone();
+        let right = node.borrow().right.clone();
+        match (left, right) {
+            (Some(node_left), Some(node_right)) => {
+                depth = std::cmp::max(
+                    max_depth_rec_sub(Some(node_left), depth + 1),
+                    max_depth_rec_sub(Some(node_right), depth + 1),
+                )
+            }
+            (Some(node_left), None) => depth = max_depth_rec_sub(Some(node_left), depth + 1),
+            (None, Some(node_right)) => depth = max_depth_rec_sub(Some(node_right), depth + 1),
+            (None, None) => depth += 1,
+        }
+    }
+    depth
+}
+
 pub fn min_depth(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
     let mut min_depth = 0;
     let mut stack = vec![];
@@ -58,6 +82,30 @@ pub fn min_depth(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
     min_depth
 }
 
+pub fn min_depth_rec(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
+    min_depth_rec_sub(root)
+}
+
+fn min_depth_rec_sub(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
+    if let Some(node) = root {
+        let left = node.borrow().left.clone();
+        let right = node.borrow().right.clone();
+
+        return match (left, right) {
+            (Some(node_left), Some(node_right)) => {
+                1 + std::cmp::min(
+                    min_depth_rec_sub(Some(node_left)),
+                    min_depth_rec_sub(Some(node_right)),
+                )
+            }
+            (Some(node_left), None) => 1 + min_depth_rec_sub(Some(node_left)),
+            (None, Some(node_right)) => 1 + min_depth_rec_sub(Some(node_right)),
+            (None, None) => 1,
+        };
+    }
+    0
+}
+
 #[cfg(test)]
 mod test {
     use crate::problems::tree::binary_tree::get_test_case;
@@ -67,14 +115,16 @@ mod test {
     #[test]
     fn test_max_depth() {
         let root = get_test_case();
-        let depth = max_depth(root);
-        println!("depth: {depth}");
+        let depth1 = max_depth(root.clone());
+        let depth2 = max_depth_rec(root.clone());
+        assert_eq!(depth1, depth2)
     }
 
     #[test]
     fn test_min_depth() {
         let root = get_test_case();
-        let depth = min_depth(root);
-        println!("depth: {depth}");
+        let depth1 = min_depth(root.clone());
+        let depth2 = min_depth_rec(root.clone());
+        assert_eq!(depth1, depth2);
     }
 }
