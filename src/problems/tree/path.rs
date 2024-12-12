@@ -2,8 +2,40 @@ use std::{cell::RefCell, rc::Rc};
 
 use super::binary_tree::TreeNode;
 
+pub fn binary_tree_paths(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<String> {
+    let mut paths: Vec<String> = vec![];
+    let mut stack: Vec<(Rc<RefCell<TreeNode>>, Vec<i32>)> = vec![];
+    if let Some(node) = root {
+        stack.push((node, vec![]));
+    }
+
+    while let Some((node, mut path)) = stack.pop() {
+        let left = node.borrow().left.clone();
+        let right = node.borrow().right.clone();
+        path.push(node.borrow().val);
+        match (left, right) {
+            (Some(l), Some(r)) => {
+                let l_path = path.clone();
+                stack.push((r, path));
+                stack.push((l, l_path));
+            }
+            (Some(l), None) => stack.push((l, path)),
+
+            (None, Some(r)) => stack.push((r, path)),
+            _ => paths.push(
+                path.iter()
+                    .map(|n| n.to_string())
+                    .collect::<Vec<String>>()
+                    .join("->"),
+            ),
+        }
+    }
+
+    paths
+}
+
 pub fn binary_tree_paths_rec(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<String> {
-    let mut paths = Vec::new();
+    let mut paths: Vec<String> = Vec::new();
     btp_rec_sub(root, &mut paths, &mut vec![]);
     paths
 }
@@ -46,7 +78,9 @@ mod test {
     #[test]
     fn test_binary_tree_paths() {
         let root = get_test_case();
-        let result = binary_tree_paths_rec(root);
-        println!("result\n{:?}", result);
+        let result1 = binary_tree_paths_rec(root.clone());
+        let result2 = binary_tree_paths(root.clone());
+        println!("result1\n{:?}", result1);
+        println!("result1\n{:?}", result2);
     }
 }
