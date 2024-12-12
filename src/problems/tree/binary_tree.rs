@@ -53,3 +53,21 @@ pub fn get_test_case() -> Option<Rc<RefCell<TreeNode>>> {
     tn8.borrow_mut().set(Some(tn9), None);
     Some(tn1)
 }
+
+/// ```
+///     1
+///    / \
+///   2   3
+///    \
+///     4
+/// ```
+pub fn get_test_case2() -> Option<Rc<RefCell<TreeNode>>> {
+    let tn1: Rc<RefCell<TreeNode>> = Rc::new(RefCell::new(TreeNode::new(1)));
+    let tn2: Rc<RefCell<TreeNode>> = Rc::new(RefCell::new(TreeNode::new(2)));
+    let tn3: Rc<RefCell<TreeNode>> = Rc::new(RefCell::new(TreeNode::new(3)));
+    let tn4: Rc<RefCell<TreeNode>> = Rc::new(RefCell::new(TreeNode::new(4)));
+    tn1.borrow_mut().set(Some(tn2.clone()), Some(tn3.clone()));
+    tn2.borrow_mut().set(None, Some(tn4.clone()));
+    tn3.borrow_mut().set(None, None);
+    Some(tn1)
+}
