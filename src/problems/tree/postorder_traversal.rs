@@ -67,6 +67,36 @@ fn post_iteraction_deque(root: &Option<Rc<RefCell<TreeNode>>>, result: &mut Vec<
     result.reverse();
 }
 
+fn postorder_stack(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
+    let mut result = vec![];
+    let mut stack = vec![];
+    let mut last_visited: Option<Rc<RefCell<TreeNode>>> = None;
+
+    let mut current = root.clone();
+
+    while current.is_some() || !stack.is_empty() {
+        while let Some(node) = current {
+            stack.push(node.clone());
+            current = node.borrow().left.clone();
+        }
+
+        if let Some(peek) = stack.last() {
+            if peek.borrow().right.is_some()
+                && peek.borrow().right.as_ref() != last_visited.as_ref()
+            {
+                current = peek.borrow().right.clone();
+            } else {
+                last_visited = stack.pop();
+                if let Some(node) = last_visited.as_ref() {
+                    result.push(node.borrow().val);
+                }
+            }
+        }
+    }
+
+    result
+}
+
 #[cfg(test)]
 mod test {
     use crate::problems::tree::binary_tree::get_test_case;
@@ -76,8 +106,10 @@ mod test {
     #[test]
     fn test_preorder_recursive() {
         let root = get_test_case();
-        let result = postorder_traversal(root);
+        let result = postorder_traversal(root.clone());
         println!("result: {:?}", result);
         println!("stand : {:?}", vec![4, 6, 7, 5, 2, 9, 8, 3, 1]);
+        let result = postorder_stack(root.clone());
+        println!("result: {:?}", result);
     }
 }
