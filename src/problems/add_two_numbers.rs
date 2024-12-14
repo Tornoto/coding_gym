@@ -1,3 +1,4 @@
+#![allow(unused)]
 #[derive(PartialEq, Eq, Clone, Debug)]
 pub struct ListNode {
     pub val: i32,
@@ -52,7 +53,9 @@ pub fn add_two_numbers(
 #[test]
 
 fn test_add_two_numbers() {
-    let l_result = add_two_numbers(Some(Box::new(ListNode::new(0))),
-     Some(Box::new(ListNode::new(0))));
+    let l_result = add_two_numbers(
+        Some(Box::new(ListNode::new(0))),
+        Some(Box::new(ListNode::new(0))),
+    );
     assert_eq!(l_result.unwrap().val, 0);
 }
