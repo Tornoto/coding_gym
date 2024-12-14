@@ -22,6 +22,10 @@ impl<T: Ord + Debug> BinHeap<T> {
         self.data.len()
     }
 
+    pub fn is_empty(&self) -> bool {
+        self.data.is_empty()
+    }
+
     fn push(&mut self, value: T) {
         self.data.push(value);
         self.heapify_up(self.data.len() - 1);
