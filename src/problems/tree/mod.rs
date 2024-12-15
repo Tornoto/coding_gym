@@ -7,4 +7,5 @@ pub mod misc;
 pub mod path;
 pub mod postorder_traversal;
 pub mod preorder_traversal;
+pub mod rebuild;
 pub mod symmetric;
