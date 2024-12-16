@@ -50,6 +50,33 @@ pub fn cmbt_rec(nums: &[i32]) -> Option<Rc<RefCell<TreeNode>>> {
     Some(root)
 }
 
+/// https://leetcode.com/problems/merge-two-binary-trees/
+pub fn merge_trees(
+    root1: Option<Rc<RefCell<TreeNode>>>,
+    root2: Option<Rc<RefCell<TreeNode>>>,
+) -> Option<Rc<RefCell<TreeNode>>> {
+    match (root1, root2) {
+        (None, None) => None,
+        (Some(n), None) | (None, Some(n)) => Some(n),
+        (Some(left), Some(right)) => {
+            // 合并节点的值
+            left.borrow_mut().val += right.borrow().val;
+
+            // 合并左子树
+            let left_left = left.borrow().left.clone();
+            let right_left = right.borrow().left.clone();
+            left.borrow_mut().left = merge_trees(left_left, right_left);
+
+            // 合并右子树
+            let left_right = left.borrow().right.clone();
+            let right_right = right.borrow().right.clone();
+            left.borrow_mut().right = merge_trees(left_right, right_right);
+
+            Some(left)
+        }
+    }
+}
+
 #[cfg(test)]
 mod test {
     use super::*;
