@@ -8,4 +8,6 @@ pub mod path;
 pub mod postorder_traversal;
 pub mod preorder_traversal;
 pub mod rebuild;
+pub mod search;
 pub mod symmetric;
+pub use binary_tree::TreeNode;
