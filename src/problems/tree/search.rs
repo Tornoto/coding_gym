@@ -137,3 +137,45 @@ pub fn find_mode_force(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
 
     result
 }
+
+/// https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/description/
+/// ugly though, works
+pub fn lowest_common_ancestor(
+    root: Option<Rc<RefCell<TreeNode>>>,
+    p: Option<Rc<RefCell<TreeNode>>>,
+    q: Option<Rc<RefCell<TreeNode>>>,
+) -> Option<Rc<RefCell<TreeNode>>> {
+    let mut values = Vec::new();
+    inorder_traversal(root.clone(), &mut values);
+
+    let mut map: HashMap<i32, usize> = HashMap::new();
+    for (index, value) in values.iter().enumerate() {
+        map.insert(*value, index);
+    }
+
+    let vp = p.unwrap().borrow().val;
+    let vq = q.unwrap().borrow().val;
+
+    let mut cur = root.clone();
+    let mut prev = None;
+
+    while let Some(node) = cur.clone() {
+        let vpp = map.get(&vp).unwrap();
+        let vqp = map.get(&vq).unwrap();
+        let rp = map.get(&node.borrow().val).unwrap();
+
+        let left = node.borrow().left.clone();
+        let right = node.borrow().right.clone();
+        if vpp > rp && vqp > rp {
+            prev = cur.clone();
+            cur = right;
+        } else if vpp < rp && vqp < rp {
+            prev = cur.clone();
+            cur = left;
+        } else {
+            return cur;
+        }
+    }
+
+    prev
+}
