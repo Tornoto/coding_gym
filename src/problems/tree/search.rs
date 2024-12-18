@@ -1,4 +1,4 @@
-use std::{cell::RefCell, i32, i64, rc::Rc};
+use std::{cell::RefCell, collections::HashMap, i32, i64, rc::Rc};
 
 use super::TreeNode;
 
@@ -96,4 +96,44 @@ pub fn get_minimum_difference(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
     }
 
     min_diff
+}
+
+/// https://leetcode.com/problems/find-mode-in-binary-search-tree/
+pub fn find_mode_force(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
+    let mut map: HashMap<i32, i32> = HashMap::new();
+    let mut stack = vec![];
+    let mut result = vec![];
+
+    if let Some(node) = root {
+        stack.push(node);
+    }
+
+    while !stack.is_empty() {
+        if let Some(node) = stack.pop() {
+            let val = node.borrow().val;
+            let left = node.borrow().left.clone();
+            let right = node.borrow().right.clone();
+            map.entry(val).and_modify(|e| *e += 1).or_insert(1);
+            if let Some(node) = left {
+                stack.push(node);
+            }
+            if let Some(node) = right {
+                stack.push(node);
+            }
+        }
+    }
+
+    let mut max = i32::MIN;
+    for (_, val) in map.iter() {
+        if *val > max {
+            max = *val;
+        }
+    }
+    for (key, val) in map.iter() {
+        if *val == max {
+            result.push(*key);
+        }
+    }
+
+    result
 }
