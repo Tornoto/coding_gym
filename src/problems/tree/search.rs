@@ -179,3 +179,28 @@ pub fn lowest_common_ancestor(
 
     prev
 }
+
+/// https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-search-tree/description/
+pub fn lowest_common_ancestor_bst(
+    root: Option<Rc<RefCell<TreeNode>>>,
+    p: Option<Rc<RefCell<TreeNode>>>,
+    q: Option<Rc<RefCell<TreeNode>>>,
+) -> Option<Rc<RefCell<TreeNode>>> {
+    let mut cur = root;
+
+    let p_val = p.unwrap().borrow().val;
+    let q_val = q.unwrap().borrow().val;
+    while let Some(node) = cur.clone() {
+        let val = node.borrow().val;
+        let left = node.borrow().left.clone();
+        let right = node.borrow().right.clone();
+        if p_val > val && q_val > val {
+            cur = right;
+        } else if p_val < val && q_val < val {
+            cur = left;
+        } else {
+            return Some(node);
+        }
+    }
+    None
+}
