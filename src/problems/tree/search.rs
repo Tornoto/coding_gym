@@ -204,3 +204,52 @@ pub fn lowest_common_ancestor_bst(
     }
     None
 }
+
+///https://leetcode.com/problems/delete-node-in-a-bst/description/
+pub fn delete_node(root: Option<Rc<RefCell<TreeNode>>>, key: i32) -> Option<Rc<RefCell<TreeNode>>> {
+    if let Some(node) = root.clone() {
+        if key > node.borrow().val {
+            let right = node.borrow().right.clone();
+            node.borrow_mut().right = delete_node(right, key);
+        } else if key < node.borrow().val {
+            let left = node.borrow().left.clone();
+            node.borrow_mut().left = delete_node(left, key);
+        } else {
+            // find the target node
+            let left = node.borrow().left.clone();
+            let right = node.borrow().right.clone();
+            // if left tree is None, after deleting root, only right tree left
+            if left.is_none() {
+                node.borrow_mut().right = None;
+                return right;
+            }
+            // if right tree is None, after deleting root, only left tree left
+            if right.is_none() {
+                node.borrow_mut().left = None;
+                return left;
+            }
+            // if both left and rgith trees exist
+            // find the smallest node in right tree
+            // copy its val to root
+            // then delete the smallest node in the right tree
+            if let Some(min_node) = find_min(right.clone()) {
+                let new_key = min_node.borrow().val;
+                node.borrow_mut().val = new_key;
+                node.borrow_mut().right = delete_node(right, new_key);
+            }
+        }
+    }
+    root
+}
+
+fn find_min(root: Option<Rc<RefCell<TreeNode>>>) -> Option<Rc<RefCell<TreeNode>>> {
+    if root.is_none() {
+        return None;
+    }
+    let mut root = root;
+    while let Some(node) = root.clone().unwrap().borrow().left.clone() {
+        root = Some(node);
+    }
+
+    return root;
+}
