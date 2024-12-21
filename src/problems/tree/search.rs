@@ -253,3 +253,26 @@ fn find_min(root: Option<Rc<RefCell<TreeNode>>>) -> Option<Rc<RefCell<TreeNode>>
 
     return root;
 }
+
+/// https://leetcode.com/problems/trim-a-binary-search-tree/description/
+pub fn trim_bst(
+    root: Option<Rc<RefCell<TreeNode>>>,
+    low: i32,
+    high: i32,
+) -> Option<Rc<RefCell<TreeNode>>> {
+    if let Some(node) = root.clone() {
+        let val = node.borrow().val;
+        let left = node.borrow().left.clone();
+        let right = node.borrow().right.clone();
+        if val < low {
+            return trim_bst(right, low, high);
+        } else if val > high {
+            return trim_bst(left, low, high);
+        } else {
+            let mut node_mut = node.borrow_mut();
+            node_mut.left = trim_bst(left, low, high);
+            node_mut.right = trim_bst(right, low, high);
+        }
+    }
+    root
+}
