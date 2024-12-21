@@ -276,3 +276,28 @@ pub fn trim_bst(
     }
     root
 }
+
+/// https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/description/
+///
+pub fn sorted_array_to_bst(nums: Vec<i32>) -> Option<Rc<RefCell<TreeNode>>> {
+    sorted_array_to_bst_sub(&nums)
+}
+
+pub fn sorted_array_to_bst_sub(nums: &[i32]) -> Option<Rc<RefCell<TreeNode>>> {
+    if nums.is_empty() {
+        return None;
+    }
+
+    if nums.len() == 1 {
+        return Some(Rc::new(RefCell::new(TreeNode::new(nums[0]))));
+    }
+
+    let mid = (nums.len() - 1) / 2;
+
+    let root = Rc::new(RefCell::new(TreeNode::new(nums[mid])));
+
+    root.borrow_mut().left = sorted_array_to_bst_sub(&nums[..mid]);
+    root.borrow_mut().right = sorted_array_to_bst_sub(&nums[mid + 1..]);
+
+    Some(root)
+}
