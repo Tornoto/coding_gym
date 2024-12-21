@@ -301,3 +301,110 @@ pub fn sorted_array_to_bst_sub(nums: &[i32]) -> Option<Rc<RefCell<TreeNode>>> {
 
     Some(root)
 }
+
+/// ```plaintext
+/// CONVERT BST
+///      10
+///     /  \
+///    5    15
+///   / \   / \
+///  3   7 12  18
+/// TO
+///      70
+///     /  \
+///   15    45
+///   / \   / \
+///  3   7 12  18
+///
+/// ```
+pub fn convert_bst_to_accumulated_sum(
+    root: Option<Rc<RefCell<TreeNode>>>,
+) -> Option<Rc<RefCell<TreeNode>>> {
+    convert_bst_sub(root.clone());
+    root
+}
+
+pub fn convert_bst_sub(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
+    if let Some(root) = root {
+        let left_opt = root.borrow().left.clone();
+        let right_opt = root.borrow().right.clone();
+
+        root.borrow_mut().val += convert_bst_sub(left_opt);
+        root.borrow_mut().val += convert_bst_sub(right_opt);
+
+        root.borrow().val
+    } else {
+        0
+    }
+}
+
+/// https://leetcode.com/problems/convert-bst-to-greater-tree/description/
+/// ```plaintext
+/// CONVERT BST
+///        4
+///     /     \
+///    1       6
+///   / \     / \
+///  0   2   5   7
+///       \       \
+///        3       8
+///
+/// TO
+///        30
+///     /      \
+///    36      21
+///   / \     /  \
+///  36 35   26   15
+///       \        \
+///       33        8
+/// ```
+/// 如下有两个版本的递归
+/// 一个是递归修改 cumulative_sum
+/// 一个是向左树传递之前的累计和，相较而言第一种更简洁
+pub fn convert_to_greater_sum_tree(
+    root: Option<Rc<RefCell<TreeNode>>>,
+) -> Option<Rc<RefCell<TreeNode>>> {
+    let mut cumulative_sum = 0;
+    reverse_inorder(&root, &mut cumulative_sum);
+    // convert_to_gst_sub(root.clone(), 0);
+    root
+}
+
+/// 由于是右节点优先的中序遍历，遍历的过程就是节点正确累加的过程
+fn reverse_inorder(root: &Option<Rc<RefCell<TreeNode>>>, cumulative_sum: &mut i32) {
+    if let Some(node) = root {
+        let mut node_mut = node.borrow_mut();
+        // Traverse the right subtree first
+        reverse_inorder(&node_mut.right, cumulative_sum);
+        // Update the node's value
+        *cumulative_sum += node_mut.val;
+        node_mut.val = *cumulative_sum;
+        // Traverse the left subtree
+        reverse_inorder(&node_mut.left, cumulative_sum);
+    }
+}
+
+/// 这个也是右节点优先的中序遍历
+/// 向右树遍历时，将parent_val 传给右树；右树遍历完毕后，更新root的累加值
+/// 在向左侧遍历，将parent_val 更新为 root 当前的累加值，传到左树
+/// 如果节点是空，则返回parent_val
+/// 如果节点没有子节点，则更新自己的累加值 然后返回
+/// 对比下来，这是一种不简洁的实现方式
+/// the simpler, the better
+pub fn convert_to_gst_sub(root: Option<Rc<RefCell<TreeNode>>>, parent_val: i32) -> i32 {
+    if let Some(root) = root {
+        let mut val = root.borrow().val;
+        let left = root.borrow().left.clone();
+        let right = root.borrow().right.clone();
+        if left.is_none() && right.is_none() {
+            val += parent_val;
+            root.borrow_mut().val = val;
+            return val;
+        }
+        val += convert_to_gst_sub(right, parent_val);
+        root.borrow_mut().val = val;
+        convert_to_gst_sub(left, val)
+    } else {
+        parent_val
+    }
+}
