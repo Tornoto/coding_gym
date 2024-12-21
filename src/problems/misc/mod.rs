@@ -4,6 +4,7 @@ pub mod binary_search;
 pub mod find_median_sorted_arrays;
 pub mod group_anagrams;
 pub mod is_palindrome;
+pub mod is_same_tree;
 pub mod length_of_longest_substring;
 pub mod permute;
 pub mod plus_one;
