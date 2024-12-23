@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 /// https://leetcode.com/problems/combinations/description/
 pub fn combine(n: i32, k: i32) -> Vec<Vec<i32>> {
     let mut result = vec![];
@@ -91,6 +93,51 @@ pub fn subsets_iter(nums: Vec<i32>) -> Vec<Vec<i32>> {
     result
 }
 
+/// https://leetcode.com/problems/letter-combinations-of-a-phone-number/description/
+pub fn letter_combinations(digits: String) -> Vec<String> {
+    // 输入为空直接返回
+    if digits.is_empty() {
+        return vec![];
+    }
+
+    let map = HashMap::from([
+        ('2', vec!['a', 'b', 'c']),
+        ('3', vec!['d', 'e', 'f']),
+        ('4', vec!['g', 'h', 'i']),
+        ('5', vec!['j', 'k', 'l']),
+        ('6', vec!['m', 'n', 'o']),
+        ('7', vec!['p', 'q', 'r', 's']),
+        ('8', vec!['t', 'u', 'v']),
+        ('9', vec!['x', 'y', 'z']),
+    ]);
+
+    let mut result = vec![];
+
+    let mut cur_combs = vec![String::new()];
+
+    // 遍历输入的数字
+    for ch_num in digits.chars() {
+        // 获取数字对应的字符数组
+        if let Some(letters) = map.get(&ch_num) {
+            // 对于每个字符，复制之前的组合，
+            // 并将字符插入组合中，生成新的组合
+            // 然后将 当前组合 指向 新组合
+            let mut new_combs = vec![];
+            for letter in letters {
+                for comb in &cur_combs {
+                    let mut new_comb = comb.clone();
+                    new_comb.push(*letter);
+                    new_combs.push(new_comb);
+                }
+            }
+            cur_combs = new_combs;
+        }
+    }
+    result.extend(cur_combs);
+
+    result
+}
+
 #[cfg(test)]
 mod test {
     use super::*;
@@ -123,6 +170,15 @@ mod test {
         println!("{:?}", result);
         let nums = vec![0];
         let result = subsets(nums);
+        println!("{:?}", result);
+    }
+
+    #[test]
+    fn test_letter_combinations() {
+        // Input: digits = "23"
+        // Output: ["ad","ae","af","bd","be","bf","cd","ce","cf"]
+        let digits = "";
+        let result = letter_combinations(digits.to_string());
         println!("{:?}", result);
     }
 }
