@@ -79,13 +79,13 @@ pub fn subsets_iter(nums: Vec<i32>) -> Vec<Vec<i32>> {
     let mut result = vec![vec![]];
 
     for &num in &nums {
-        let mut new_subsets = Vec::new();
+        let mut sub_result = Vec::new();
         for subset in &result {
-            let mut new_subset = subset.clone();
-            new_subset.push(num);
-            new_subsets.push(new_subset);
+            let mut subset_copy = subset.clone();
+            subset_copy.push(num);
+            sub_result.push(subset_copy);
         }
-        result.extend(new_subsets);
+        result.extend(sub_result);
     }
 
     result
