@@ -56,6 +56,41 @@ fn combination_sum3_rec(
     }
 }
 
+/// https://leetcode.com/problems/subsets/description/
+pub fn subsets(nums: Vec<i32>) -> Vec<Vec<i32>> {
+    let mut result = vec![];
+    let mut path = vec![];
+    subsets_backtracing(&nums, &mut result, &mut path);
+    result
+}
+
+fn subsets_backtracing(nums: &[i32], result: &mut Vec<Vec<i32>>, path: &mut Vec<i32>) {
+    result.push(path.clone());
+
+    for idx in 0..nums.len() {
+        path.push(nums[idx]);
+        subsets_backtracing(&nums[idx + 1..], result, path);
+        path.pop();
+    }
+}
+
+/// 迭代方法处理 subsets
+pub fn subsets_iter(nums: Vec<i32>) -> Vec<Vec<i32>> {
+    let mut result = vec![vec![]];
+
+    for &num in &nums {
+        let mut new_subsets = Vec::new();
+        for subset in &result {
+            let mut new_subset = subset.clone();
+            new_subset.push(num);
+            new_subsets.push(new_subset);
+        }
+        result.extend(new_subsets);
+    }
+
+    result
+}
+
 #[cfg(test)]
 mod test {
     use super::*;
@@ -77,5 +112,17 @@ mod test {
         // 输出: [[1,2,6], [1,3,5], [2,3,4]]
         let result = combination_sum3(3, 9);
         println!("res: {:?}", result);
+    }
+
+    #[test]
+    fn test_subsets() {
+        // 输入：nums = [1,2,3]
+        // 输出：[[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
+        let nums = vec![1, 2, 3];
+        let result = subsets(nums);
+        println!("{:?}", result);
+        let nums = vec![0];
+        let result = subsets(nums);
+        println!("{:?}", result);
     }
 }
