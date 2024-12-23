@@ -108,7 +108,7 @@ pub fn letter_combinations(digits: String) -> Vec<String> {
         ('6', vec!['m', 'n', 'o']),
         ('7', vec!['p', 'q', 'r', 's']),
         ('8', vec!['t', 'u', 'v']),
-        ('9', vec!['x', 'y', 'z']),
+        ('9', vec!['w', 'x', 'y', 'z']),
     ]);
 
     let mut result = vec![];
@@ -136,6 +136,50 @@ pub fn letter_combinations(digits: String) -> Vec<String> {
     result.extend(cur_combs);
 
     result
+}
+
+pub fn letter_combinations_bt(digits: String) -> Vec<String> {
+    if digits.is_empty() {
+        return vec![];
+    }
+
+    let map = HashMap::from([
+        ('2', vec!['a', 'b', 'c']),
+        ('3', vec!['d', 'e', 'f']),
+        ('4', vec!['g', 'h', 'i']),
+        ('5', vec!['j', 'k', 'l']),
+        ('6', vec!['m', 'n', 'o']),
+        ('7', vec!['p', 'q', 'r', 's']),
+        ('8', vec!['t', 'u', 'v']),
+        ('9', vec!['x', 'y', 'z']),
+    ]);
+
+    let mut result = vec![];
+    let mut comb = String::new();
+    letter_combinations_backtracing(&digits, digits.len(), &map, &mut result, &mut comb);
+    result
+}
+
+fn letter_combinations_backtracing(
+    digits: &str,
+    size: usize,
+    map: &HashMap<char, Vec<char>>,
+    result: &mut Vec<String>,
+    comb: &mut String,
+) {
+    if comb.len() == size {
+        result.push(comb.clone());
+    }
+
+    if let Some(ch_num) = digits.chars().next() {
+        if let Some(letters) = map.get(&ch_num) {
+            for letter in letters {
+                comb.push(*letter);
+                letter_combinations_backtracing(&digits[1..], size, map, result, comb);
+                comb.pop();
+            }
+        }
+    }
 }
 
 #[cfg(test)]
@@ -177,8 +221,8 @@ mod test {
     fn test_letter_combinations() {
         // Input: digits = "23"
         // Output: ["ad","ae","af","bd","be","bf","cd","ce","cf"]
-        let digits = "";
-        let result = letter_combinations(digits.to_string());
+        let digits = "23";
+        let result = letter_combinations_bt(digits.to_string());
         println!("{:?}", result);
     }
 }
