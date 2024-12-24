@@ -182,6 +182,80 @@ fn letter_combinations_backtracing(
     }
 }
 
+/// https://leetcode.cn/problems/n-queens/description/
+pub fn solve_n_queens(n: i32) -> Vec<Vec<String>> {
+    let mut result: Vec<Vec<String>> = vec![];
+    let mut layout: Vec<String> = vec![];
+    n_queens_backtracing(n, 0, &mut result, &mut layout);
+    result
+}
+
+/// 回溯
+fn n_queens_backtracing(n: i32, row: i32, result: &mut Vec<Vec<String>>, layout: &mut Vec<String>) {
+    if layout.len() == n as usize {
+        result.push(layout.clone());
+        return;
+    }
+
+    for col in 0..n {
+        let queens = get_queen_pos(&layout);
+        if can_put(&queens, row, col) {
+            let line = put_queen(n, col);
+            layout.push(line);
+            n_queens_backtracing(n, row + 1, result, layout);
+            layout.pop();
+        }
+    }
+}
+
+/// 放置皇后，生成”..Q..“样式字符串
+fn put_queen(n: i32, pos: i32) -> String {
+    let mut line = String::new();
+    for _ in 0..pos {
+        line.push('.');
+    }
+    line.push('Q');
+    for _ in pos + 1..n {
+        line.push('.');
+    }
+
+    line
+}
+
+/// 获取已放置皇后的坐标
+fn get_queen_pos(layout: &Vec<String>) -> Vec<(i32, i32)> {
+    if layout.len() == 0 {
+        return vec![];
+    }
+
+    let mut pos = vec![];
+    for row in 0..layout.len() {
+        let line = &layout[row];
+        let col = line.find("Q").unwrap();
+        pos.push((row as i32, col as i32));
+    }
+
+    pos
+}
+
+/// 根据已有皇后位置，判断当前位置是否可以放置皇后
+fn can_put(queens: &Vec<(i32, i32)>, row: i32, col: i32) -> bool {
+    for queen in queens {
+        // 不能同列
+        if col == queen.1 {
+            return false;
+        }
+
+        let row_diff = queen.0 - row;
+        let col_diff = queen.1 - col;
+        // 不能在同一条对角线上
+        if row_diff == col_diff || row_diff + col_diff == 0 {
+            return false;
+        }
+    }
+    true
+}
+
 #[cfg(test)]
 mod test {
     use super::*;
@@ -224,5 +298,13 @@ mod test {
         let digits = "23";
         let result = letter_combinations_bt(digits.to_string());
         println!("{:?}", result);
+    }
+
+    #[test]
+    fn test_solve_n_queens() {
+        let result = solve_n_queens(4);
+        println!("{:?}", result);
+        // [[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]
+        // [[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]
     }
 }
