@@ -216,7 +216,7 @@ fn letter_combinations_backtracing(
     }
 }
 
-/// https://leetcode.cn/problems/n-queens/description/
+/// https://leetcode.com/problems/n-queens/description/
 pub fn solve_n_queens(n: i32) -> Vec<Vec<String>> {
     let mut result: Vec<Vec<i32>> = vec![];
     let mut layout: Vec<i32> = vec![];

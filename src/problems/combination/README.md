@@ -10,9 +10,11 @@
 ```bash
 combination/
 └── combination/                # 常见组合问题
-    ├── 77.Combinations/        # 组合
-    ├── 216.Combination Sum3/   # 组合综合3
-    ├── 78.Subsets              # 子集
     ├── 17.Letter Comb          # 电话号码数字组合
+    ├── 39.Combination Sum/     # 组合总和
+    ├── 51.N Queens/            # N 皇后
+    ├── 77.Combinations/        # 组合
+    ├── 78.Subsets              # 子集
+    ├── 216.Combination Sum3/   # 组合总和3
     └──
 ```
