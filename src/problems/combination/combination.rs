@@ -58,6 +58,44 @@ fn combination_sum_helper(
     }
 }
 
+/// https://leetcode.com/problems/combination-sum-ii/description/
+pub fn combination_sum2(candidates: Vec<i32>, target: i32) -> Vec<Vec<i32>> {
+    let mut candidates = candidates;
+    let mut result = vec![];
+    let mut comb = vec![];
+    // sort!!!
+    candidates.sort();
+    combination_sum2_helper(&candidates, target, &mut result, &mut comb);
+    result
+}
+
+fn combination_sum2_helper(
+    candidates: &[i32],
+    target: i32,
+    result: &mut Vec<Vec<i32>>,
+    comb: &mut Vec<i32>,
+) {
+    let sum = comb.iter().sum::<i32>();
+    if sum > target {
+        return;
+    }
+
+    if sum == target {
+        result.push(comb.clone());
+        return;
+    }
+
+    for (idx, val) in candidates.iter().enumerate() {
+        // skip duplicate numbers
+        if idx > 0 && candidates[idx] == candidates[idx - 1] {
+            continue;
+        }
+        comb.push(*val);
+        combination_sum2_helper(&candidates[idx + 1..], target, result, comb);
+        comb.pop();
+    }
+}
+
 /// https://leetcode.com/problems/combination-sum-iii/description/
 pub fn combination_sum3(k: i32, n: i32) -> Vec<Vec<i32>> {
     let mut result = vec![];
@@ -301,6 +339,18 @@ mod test {
         let target = 8;
         let res = combination_sum(candidates, target);
         println!("{:?}", res);
+    }
+
+    #[test]
+    fn test_combination_sum2() {
+        let candidates = vec![10, 1, 2, 7, 6, 1, 5];
+        let target = 8;
+        let result = combination_sum2(candidates, target);
+        println!(">> {:?}", result);
+        let candidates = vec![2, 5, 2, 1, 2];
+        let target = 5;
+        let result = combination_sum2(candidates, target);
+        println!(">> {:?}", result);
     }
 
     #[test]
