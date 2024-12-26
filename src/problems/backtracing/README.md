@@ -1,4 +1,4 @@
-# Combination 组合
+# Backtracing 组合
 
 包含了一些经典的 LeetCode 组合类题目。
 
