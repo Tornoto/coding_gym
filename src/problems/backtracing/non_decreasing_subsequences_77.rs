@@ -1,16 +1,21 @@
+#![allow(unused)]
 use std::collections::HashSet;
 
 pub fn find_subsequences(nums: Vec<i32>) -> Vec<Vec<i32>> {
     let mut result = vec![];
     let mut sequence = vec![];
-    let mut result_set: HashSet<Vec<i32>> = HashSet::new();
 
-    backtrace(&nums, 0, &mut result_set, &mut sequence);
+    // use HashSet version
+    // let mut result_set: HashSet<Vec<i32>> = HashSet::new();
+    // backtrace(&nums, 0, &mut result_set, &mut sequence);
+    // result.extend(result_set);
 
-    result.extend(result_set);
+    // without HashSet version
+    backtrace2(&nums, 0, i32::MIN, &mut result, &mut sequence);
     result
 }
 
+/// hashset version
 fn backtrace(
     nums: &[i32],
     start: usize,
@@ -42,5 +47,34 @@ fn backtrace(
             backtrace(nums, index + 1, result_set, sequence);
             sequence.pop();
         }
+    }
+}
+
+/// without hashset
+fn backtrace2(
+    nums: &[i32],
+    start: usize,
+    last_picked: i32,
+    result: &mut Vec<Vec<i32>>,
+    sequence: &mut Vec<i32>,
+) {
+    // 如果到了末尾
+    if start == nums.len() {
+        if sequence.len() > 1 {
+            result.push(sequence.clone());
+        }
+        return;
+    }
+
+    // If the current element can be picked
+    // (is greater or equal to the last picked element)
+    if nums[start] >= last_picked {
+        sequence.push(nums[start]);
+        backtrace2(nums, start + 1, nums[start], result, sequence);
+        sequence.pop();
+    }
+
+    if nums[start] != last_picked {
+        backtrace2(nums, start + 1, last_picked, result, sequence);
     }
 }
