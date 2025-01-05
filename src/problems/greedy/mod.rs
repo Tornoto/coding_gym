@@ -1,6 +1,6 @@
 pub mod assign_cookies_455;
-pub mod best_time_to_buy_and_sell_stock;
-pub mod best_time_to_buy_and_sell_stock_ii;
+pub mod best_time_to_buy_and_sell_stock_121;
+pub mod best_time_to_buy_and_sell_stock_ii_122;
 pub mod candy_135;
 pub mod jump_game_55;
 pub mod jump_game_ii_45;
