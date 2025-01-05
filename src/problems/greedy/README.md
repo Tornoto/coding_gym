@@ -21,7 +21,7 @@
 - [121. 买卖股票的最佳时机 - Best Time to Buy and Sell Stock](/src/problems/greedy/best_time_to_buy_and_sell_stock_121.rs)
 - [122. 买卖股票的最佳时机 II - Best Time to Buy and Sell Stock II](/src/problems/greedy/best_time_to_buy_and_sell_stock_ii_122.rs)
 - [135. 分发糖果 - Candy](/src/problems/greedy/candy_135.rs)
-- - [376. 摆动序列 - Wiggle Subsequence](/src/problems/greedy/wiggle_subsequence_376.rs)
+- [376. 摆动序列 - Wiggle Subsequence](/src/problems/greedy/wiggle_subsequence_376.rs)
 - [455. 分发饼干 - Assign Cookies](/src/problems/greedy/assign_cookies_455.rs)
 - [860. 柠檬水找零 - Lemonade Change](/src/problems/greedy/lemonade_change_860.rs)
 - [1005. K 次取反后最大化的数组和 - Maximize Sum Of Array After K Negations](/src/problems/greedy/maximize_sum_of_array_after_k_negations_1005.rs)
