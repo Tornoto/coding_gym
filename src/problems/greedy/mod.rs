@@ -7,4 +7,5 @@ pub mod jump_game_ii_45;
 pub mod lemonade_change_860;
 pub mod maximize_sum_of_array_after_k_negations_1005;
 pub mod maximum_subarray_53;
+pub mod queue_reconstruction_by_height;
 pub mod wiggle_subsequence_376;
