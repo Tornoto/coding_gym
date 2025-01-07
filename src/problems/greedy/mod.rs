@@ -8,5 +8,6 @@ pub mod lemonade_change_860;
 pub mod maximize_sum_of_array_after_k_negations_1005;
 pub mod maximum_subarray_53;
 pub mod minimum_number_of_arrows_to_burst_balloons_542;
+pub mod non_overlapping_intervals_435;
 pub mod queue_reconstruction_by_height_406;
 pub mod wiggle_subsequence_376;
