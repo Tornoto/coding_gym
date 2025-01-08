@@ -9,6 +9,7 @@ pub mod maximize_sum_of_array_after_k_negations_1005;
 pub mod maximum_subarray_53;
 pub mod merge_intervals_56;
 pub mod minimum_number_of_arrows_to_burst_balloons_542;
+pub mod monotone_increasing_digits_738;
 pub mod non_overlapping_intervals_435;
 pub mod partition_labels_763;
 pub mod queue_reconstruction_by_height_406;
