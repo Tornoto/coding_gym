@@ -15,3 +15,21 @@ pub fn climb_stairs(n: i32) -> i32 {
 
     ways[n]
 }
+
+pub fn climb_stairs_v2(n: i32) -> i32 {
+    let n = n as usize;
+    if n < 2 {
+        return 1;
+    }
+
+    let mut ways1 = 1;
+    let mut ways2 = 2;
+
+    for _ in 3..n + 1 {
+        let ways = ways1 + ways2;
+        ways1 = ways2;
+        ways2 = ways;
+    }
+
+    ways2
+}

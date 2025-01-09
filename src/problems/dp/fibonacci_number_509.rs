@@ -14,3 +14,20 @@ pub fn fib(n: i32) -> i32 {
 
     seq[n as usize]
 }
+
+pub fn fib_v2(n: i32) -> i32 {
+    if n == 0 {
+        return 0;
+    }
+
+    let mut f0 = 0;
+    let mut f1 = 1;
+
+    for _ in 2..n + 1 {
+        let next = f0 + f1;
+        f0 = f1;
+        f1 = next;
+    }
+
+    f1
+}
