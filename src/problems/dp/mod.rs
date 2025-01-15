@@ -4,6 +4,7 @@ pub mod coin_change_ii_518;
 pub mod fibonacci_number_509;
 pub mod integer_break_343;
 pub mod knapsack;
+pub mod last_stone_weight_ii_1049;
 pub mod min_cost_climbing_stairs_746;
 pub mod partition_equal_subset_sum_416;
 pub mod unique_binary_search_trees_96;
