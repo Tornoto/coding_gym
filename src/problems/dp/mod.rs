@@ -5,6 +5,7 @@ pub mod combination_sum_iv_377;
 pub mod fibonacci_number_509;
 pub mod house_robber_198;
 pub mod house_robber_ii_213;
+pub mod house_robber_iii_337;
 pub mod integer_break_343;
 pub mod knapsack;
 pub mod last_stone_weight_ii_1049;
