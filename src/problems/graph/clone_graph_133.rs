@@ -43,6 +43,43 @@ pub fn clone_graph(node: Option<Rc<RefCell<GraphNode>>>) -> Option<Rc<RefCell<Gr
     Some(cloned_root)
 }
 
+pub fn clone_graph_dfs(node: Option<Rc<RefCell<GraphNode>>>) -> Option<Rc<RefCell<GraphNode>>> {
+    if node.is_none() {
+        return None;
+    }
+
+    let root = node.unwrap();
+    // 定义一个哈希表，用于存储已克隆的节点
+    let mut visited: HashMap<i32, Rc<RefCell<GraphNode>>> = HashMap::new();
+
+    Some(dfs(root, &mut visited))
+}
+
+// 定义辅助函数进行深度优先搜索
+fn dfs(
+    node: Rc<RefCell<GraphNode>>,
+    visited: &mut HashMap<i32, Rc<RefCell<GraphNode>>>,
+) -> Rc<RefCell<GraphNode>> {
+    let val = node.borrow().val;
+
+    // 如果节点已经克隆过，直接返回克隆节点
+    if let Some(cloned_node) = visited.get(&val) {
+        return cloned_node.clone();
+    }
+
+    // 克隆当前节点
+    let cloned_node = Rc::new(RefCell::new(GraphNode::new(val)));
+    visited.insert(val, cloned_node.clone());
+
+    // 递归克隆邻居节点
+    for neighbor in &node.borrow().neighbors {
+        let cloned_neighbor = dfs(neighbor.clone(), visited);
+        cloned_node.borrow_mut().neighbors.push(cloned_neighbor);
+    }
+
+    cloned_node
+}
+
 #[cfg(test)]
 mod test {
     use crate::problems::graph::graph_node::display;
@@ -64,7 +101,7 @@ mod test {
         node4.borrow_mut().neighbors = vec![node1.clone(), node3.clone()];
 
         // Clone the graph
-        let cloned_graph = clone_graph(Some(node1.clone()));
+        let cloned_graph = clone_graph_dfs(Some(node1.clone()));
         display(Some(node1));
         display(cloned_graph);
     }
