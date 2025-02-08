@@ -25,7 +25,7 @@ pub fn oranges_rotting(grid: Vec<Vec<i32>>) -> i32 {
     // // 定义四个方向的偏移量
     let dirs = [(-1, 0), (1, 0), (0, -1), (0, 1)];
 
-    while queue.is_empty() && fresh_oranges > 0 {
+    while !queue.is_empty() && fresh_oranges > 0 {
         minutes += 1;
         let size = queue.len();
         for _ in 0..size {
