@@ -13,7 +13,7 @@ pub fn next_greater_element(nums1: Vec<i32>, nums2: Vec<i32>) -> Vec<i32> {
         let val = nums2[i];
         // 如果栈内元素小于即将入栈的元素，则更新map
         while !stack.is_empty() && stack[stack.len() - 1] < val {
-            let prev_val = stack[stack.len() - 1];
+            let prev_val = stack.pop().unwrap();
             map.insert(prev_val, val);
         }
         // 元素入栈
