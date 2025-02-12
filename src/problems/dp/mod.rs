@@ -17,6 +17,7 @@ pub mod ones_and_zeroes_474;
 pub mod partition_equal_subset_sum_416;
 pub mod perfect_squares_279;
 pub mod target_sum_494;
+pub mod trapping_rain_water_42;
 pub mod unique_binary_search_trees_96;
 pub mod unique_paths_62;
 pub mod unique_paths_ii_63;
