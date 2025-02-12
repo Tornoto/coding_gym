@@ -89,3 +89,43 @@ pub fn trap_two_pointers(height: Vec<i32>) -> i32 {
 
     volume
 }
+
+/// 单调栈解法
+///
+/// 此前的解法计算水量时，是计算垂直方向的水量，也就是每个柱子上的水量。
+///
+/// 而单调栈解法，则通过柱子间的距离，计算水平方向的水量。
+/// ```
+/// □
+/// □ |← O   O →| □
+/// □ |← O →|□    □
+/// □    □   □    □
+/// ```
+///
+/// - 栈内元素从大到小。
+/// - 入栈时，如果小于等于栈顶元素，则入栈；
+/// - 如果元素大于栈顶元素，则说明存在凹槽，将小于入栈元素的栈内元素一次弹出，计算水量
+pub fn trap_stack(height: Vec<i32>) -> i32 {
+    let n = height.len();
+    let mut stack: Vec<usize> = Vec::with_capacity(n);
+    stack.push(0);
+
+    let mut volume = 0;
+    for i in 0..n {
+        let mut top = stack.last().unwrap().clone();
+        while !stack.is_empty() && height[i] > height[top] {
+            let mid = stack.pop().unwrap();
+            if !stack.is_empty() {
+                top = stack.last().unwrap().clone();
+                // 注意当栈内元素相等场景，如[6,5,5,7]
+                let h = height[top].min(height[i]) - height[mid];
+                // 注意减一
+                let w = i - top - 1;
+                volume += h * w as i32;
+            }
+        }
+        stack.push(i);
+    }
+
+    volume
+}
