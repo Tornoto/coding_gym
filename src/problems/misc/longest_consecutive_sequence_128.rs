@@ -1,4 +1,4 @@
-use std::{collections::HashSet, hash::Hash};
+use std::collections::HashSet;
 
 /// https://leetcode.com/problems/longest-consecutive-sequence/description/
 /// 说一下这个超时解法的思路。比较丑陋。
@@ -95,11 +95,4 @@ pub fn longest_consecutive(nums: Vec<i32>) -> i32 {
     }
 
     longest_streak
-}
-
-#[test]
-fn test() {
-    let nums = vec![100, 4, 200, 1, 3, 2];
-    let length = longest_consecutive_timeout(nums);
-    println!("{:?}", length);
 }
