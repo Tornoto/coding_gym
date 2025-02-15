@@ -12,5 +12,6 @@ pub mod number_of_1_bits_191;
 pub mod permute;
 pub mod plus_one;
 pub mod rotate;
+pub mod rotate_array_189;
 pub mod search_insert;
 pub mod sort_colors;
