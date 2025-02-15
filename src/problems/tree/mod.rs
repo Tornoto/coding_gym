@@ -1,4 +1,5 @@
 pub mod binary_tree;
+pub mod binary_tree_right_side_view_199;
 pub mod depth;
 pub mod inorder_traversal;
 pub mod level_order_traversal;
