@@ -1,6 +1,7 @@
 pub mod bellman_ford;
 pub mod clone_graph_133;
 pub mod dijkstra;
+pub mod dungeon_game_174;
 pub mod graph_node;
 pub mod matrix_01_542;
 pub mod number_of_islands_200;
