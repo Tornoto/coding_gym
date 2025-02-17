@@ -1,6 +1,7 @@
 pub mod add_binary;
 pub mod add_two_numbers;
 pub mod binary_search;
+pub mod factorial_trailing_zeroes_172;
 pub mod find_median_sorted_arrays;
 pub mod group_anagrams;
 pub mod is_palindrome;
