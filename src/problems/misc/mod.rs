@@ -10,6 +10,7 @@ pub mod is_same_tree;
 pub mod last_stone_weight_1046;
 pub mod length_of_longest_substring;
 pub mod longest_consecutive_sequence_128;
+pub mod majority_element_169;
 pub mod number_of_1_bits_191;
 pub mod permute;
 pub mod plus_one;
