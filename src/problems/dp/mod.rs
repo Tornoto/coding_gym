@@ -1,3 +1,5 @@
+use super::misc::longest_consecutive_sequence_128;
+
 pub mod best_time_to_buy_and_sell_stock_121;
 pub mod best_time_to_buy_and_sell_stock_ii_122;
 pub mod best_time_to_buy_and_sell_stock_iii_123;
@@ -12,6 +14,7 @@ pub mod house_robber_iii_337;
 pub mod integer_break_343;
 pub mod knapsack;
 pub mod last_stone_weight_ii_1049;
+pub mod longest_increasing_subsequence_300;
 pub mod min_cost_climbing_stairs_746;
 pub mod ones_and_zeroes_474;
 pub mod partition_equal_subset_sum_416;
