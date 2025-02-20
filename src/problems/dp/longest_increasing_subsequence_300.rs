@@ -13,10 +13,3 @@ pub fn length_of_lis(nums: Vec<i32>) -> i32 {
 
     dp.iter().max().unwrap().clone()
 }
-
-#[test]
-fn test() {
-    let nums = vec![6, 6, 6, 6];
-    let length = length_of_lis(nums);
-    println!("{:?}", length);
-}
