@@ -20,3 +20,4 @@ pub mod rotate_array_189;
 pub mod search_insert;
 pub mod smaller_numbers_than_current_1365;
 pub mod sort_colors;
+pub mod valid_mountain_array_941;
