@@ -23,3 +23,14 @@ pub fn move_zeroes(nums: &mut Vec<i32>) {
         }
     }
 }
+
+/// 一个更优雅的解法 快慢指针
+pub fn move_zeroes_fast_slow(nums: &mut Vec<i32>) {
+    let mut slow = 0;
+    for fast in 0..nums.len() {
+        if nums[fast] != 0 {
+            nums.swap(slow, fast);
+            slow += 1;
+        }
+    }
+}
