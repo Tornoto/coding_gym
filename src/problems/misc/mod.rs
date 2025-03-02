@@ -5,6 +5,7 @@ pub mod excel_sheet_column_number_171;
 pub mod excel_sheet_column_title_168;
 pub mod factorial_trailing_zeroes_172;
 pub mod find_median_sorted_arrays;
+pub mod find_pivot_index_724;
 pub mod group_anagrams;
 pub mod is_palindrome;
 pub mod is_same_tree;
