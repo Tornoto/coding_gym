@@ -22,6 +22,7 @@ pub mod rotate_array_189;
 pub mod search_insert;
 pub mod search_range_34;
 pub mod smaller_numbers_than_current_1365;
+pub mod sort_array_by_parity2_922;
 pub mod sort_colors;
 pub mod unique_number_of_occurrences_1207;
 pub mod valid_mountain_array_941;
