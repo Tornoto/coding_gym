@@ -1,4 +1,5 @@
 pub mod assign_cookies_455;
+pub mod balanced_string_split_1221;
 pub mod best_time_to_buy_and_sell_stock_121;
 pub mod best_time_to_buy_and_sell_stock_ii_122;
 pub mod candy_135;
