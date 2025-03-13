@@ -13,6 +13,7 @@ pub mod integer_break_343;
 pub mod knapsack;
 pub mod last_stone_weight_ii_1049;
 pub mod longest_increasing_subsequence_300;
+pub mod longest_palindromic_substring_5;
 pub mod min_cost_climbing_stairs_746;
 pub mod ones_and_zeroes_474;
 pub mod partition_equal_subset_sum_416;
