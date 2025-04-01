@@ -1,5 +1,6 @@
 pub mod combination;
 pub mod combination_sum_39;
+pub mod combination_sum_ii_40;
 pub mod combinations_77;
 pub mod gas_station;
 pub mod non_decreasing_subsequences_491;
