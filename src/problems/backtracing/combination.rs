@@ -1,39 +1,5 @@
 use std::collections::HashMap;
 
-/// https://leetcode.com/problems/combination-sum/description/
-pub fn combination_sum(candidates: Vec<i32>, target: i32) -> Vec<Vec<i32>> {
-    let mut result = vec![];
-    let mut comb = vec![];
-    combination_sum_helper(&candidates, target, 0, &mut result, &mut comb);
-    result
-}
-
-fn combination_sum_helper(
-    candidates: &Vec<i32>,
-    target: i32,
-    start_idx: i32,
-    result: &mut Vec<Vec<i32>>,
-    comb: &mut Vec<i32>,
-) {
-    let sum: i32 = comb.iter().sum();
-    if sum > target {
-        return;
-    }
-    if sum == target {
-        result.push(comb.clone());
-        return;
-    }
-
-    for (idx, num) in candidates.iter().enumerate() {
-        if idx < start_idx as usize {
-            continue;
-        }
-        comb.push(*num);
-        combination_sum_helper(candidates, target, idx as i32, result, comb);
-        comb.pop();
-    }
-}
-
 /// https://leetcode.com/problems/combination-sum-ii/description/
 pub fn combination_sum2(candidates: Vec<i32>, target: i32) -> Vec<Vec<i32>> {
     let mut candidates = candidates;
@@ -297,19 +263,6 @@ fn can_put(queens: &Vec<i32>, row: i32, col: i32) -> bool {
 #[cfg(test)]
 mod test {
     use super::*;
-
-    #[test]
-    fn test_combination_sum() {
-        let candidates = vec![2, 3, 6, 7];
-        let target = 7;
-        let res = combination_sum(candidates, target);
-        println!("{:?}", res);
-
-        let candidates = vec![2, 3, 5];
-        let target = 8;
-        let res = combination_sum(candidates, target);
-        println!("{:?}", res);
-    }
 
     #[test]
     fn test_combination_sum2() {
