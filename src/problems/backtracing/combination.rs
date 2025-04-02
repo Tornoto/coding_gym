@@ -1,23 +1,5 @@
 use std::collections::HashMap;
 
-/// https://leetcode.com/problems/subsets/description/
-pub fn subsets(nums: Vec<i32>) -> Vec<Vec<i32>> {
-    let mut result = vec![];
-    let mut path = vec![];
-    subsets_backtracing(&nums, &mut result, &mut path);
-    result
-}
-
-fn subsets_backtracing(nums: &[i32], result: &mut Vec<Vec<i32>>, path: &mut Vec<i32>) {
-    result.push(path.clone());
-
-    for idx in 0..nums.len() {
-        path.push(nums[idx]);
-        subsets_backtracing(&nums[idx + 1..], result, path);
-        path.pop();
-    }
-}
-
 /// 迭代方法处理 subsets
 pub fn subsets_iter(nums: Vec<i32>) -> Vec<Vec<i32>> {
     let mut result = vec![vec![]];
@@ -191,18 +173,6 @@ fn can_put(queens: &Vec<i32>, row: i32, col: i32) -> bool {
 #[cfg(test)]
 mod test {
     use super::*;
-
-    #[test]
-    fn test_subsets() {
-        // 输入：nums = [1,2,3]
-        // 输出：[[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
-        let nums = vec![1, 2, 3];
-        let result = subsets(nums);
-        println!("{:?}", result);
-        let nums = vec![0];
-        let result = subsets(nums);
-        println!("{:?}", result);
-    }
 
     #[test]
     fn test_letter_combinations() {

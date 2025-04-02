@@ -7,3 +7,4 @@ pub mod gas_station;
 pub mod non_decreasing_subsequences_491;
 pub mod palindrome_partitioning;
 pub mod subset2;
+pub mod subsets_78;
