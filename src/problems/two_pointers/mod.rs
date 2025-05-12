@@ -1,6 +1,10 @@
+pub mod backspace_compare;
 pub mod four_sum;
+pub mod move_zeroes;
+pub mod remove_duplicates;
 pub mod remove_element;
 pub mod replace_number;
 pub mod reverse_words;
+pub mod sorted_squares;
 pub mod three_sum;
 pub mod two_sum;

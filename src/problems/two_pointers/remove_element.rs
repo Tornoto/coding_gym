@@ -1,6 +1,6 @@
 #[allow(unused)]
 // https://leetcode.com/problems/remove-element/
-pub fn remove_element(nums: &mut Vec<i32>, val: i32) -> i32 {
+pub fn remove_element_not_good(nums: &mut Vec<i32>, val: i32) -> i32 {
     let mut start: usize = 0;
     let mut end: usize = nums.len();
 
@@ -70,4 +70,24 @@ mod test {
         remove_element(&mut numbers, 3);
         println!("{:?}", numbers);
     }
+}
+
+/// This solution employs the fast-slow pointer technique to efficiently solve the problem. In this approach:
+///
+/// - The fast pointer traverses the vector one step at a time, examining each element sequentially.
+///
+/// - The slow pointer, on the other hand, only advances when the element pointed to by the fast pointer does not match the target value.
+///
+/// By using this method, we ensure that all instances of the target value are effectively skipped, and only the desired elements are retained in the vector. This results in an in-place modification of the vector, optimizing both time and space complexity.
+pub fn remove_element(nums: &mut Vec<i32>, target: i32) -> i32 {
+    let mut k = 0;
+
+    for i in 0..nums.len() {
+        if nums[i] != target {
+            nums[k] = nums[i];
+            k += 1;
+        }
+    }
+
+    k as i32
 }

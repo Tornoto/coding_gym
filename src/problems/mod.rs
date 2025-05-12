@@ -9,3 +9,4 @@ pub mod string;
 pub mod tree;
 pub mod two_pointers;
 pub mod utils;
+pub mod search;
