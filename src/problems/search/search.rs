@@ -1,3 +1,4 @@
+#![allow(unused)]
 /// binary search
 /// https://leetcode.com/problems/binary-search/description/
 pub fn binary_search(nums: &[i32], target: i32) -> Option<usize> {
