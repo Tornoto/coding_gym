@@ -2,6 +2,7 @@ pub mod backspace_compare;
 pub mod four_sum;
 pub mod fruit_into_baskets_904;
 pub mod minimum_size_subarray_sum_209;
+pub mod minimum_window_substring_76;
 pub mod move_zeroes;
 pub mod remove_duplicates;
 pub mod remove_element;
