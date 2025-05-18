@@ -25,6 +25,7 @@ pub mod search_range_34;
 pub mod smaller_numbers_than_current_1365;
 pub mod sort_array_by_parity2_922;
 pub mod sort_colors;
+pub mod spiral_matrix_54;
 pub mod sums_of_subarrays;
 pub mod unique_number_of_occurrences_1207;
 pub mod valid_mountain_array_941;
