@@ -1,6 +1,7 @@
 pub mod add_binary;
 pub mod add_two_numbers;
 pub mod binary_search;
+pub mod developer_buy_land;
 pub mod excel_sheet_column_number_171;
 pub mod excel_sheet_column_title_168;
 pub mod factorial_trailing_zeroes_172;
@@ -24,5 +25,6 @@ pub mod search_range_34;
 pub mod smaller_numbers_than_current_1365;
 pub mod sort_array_by_parity2_922;
 pub mod sort_colors;
+pub mod sums_of_subarrays;
 pub mod unique_number_of_occurrences_1207;
 pub mod valid_mountain_array_941;
