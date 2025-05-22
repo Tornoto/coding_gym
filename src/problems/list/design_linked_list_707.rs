@@ -38,26 +38,13 @@ impl MyLinkedList {
     }
 
     fn add_at_tail(&mut self, val: i32) {
-        let tail = Node {
-            val: val,
-            next: None,
-        };
+        let new_node = Box::new(Node { val, next: None });
 
-        if self.root.is_none() {
-            self.root = Some(Box::new(tail));
-            return;
-        }
-
-        let mut cur = self.root.as_mut();
+        let mut cur = &mut self.root;
         while let Some(node) = cur {
-            match node.next {
-                Some(_) => cur = node.next.as_mut(),
-                None => {
-                    node.next = Some(Box::new(tail));
-                    break;
-                }
-            }
+            cur = &mut node.next;
         }
+        *cur = Some(new_node);
     }
 
     fn add_at_index(&mut self, index: i32, val: i32) {
