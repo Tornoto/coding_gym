@@ -2,6 +2,7 @@ pub mod backtracing;
 pub mod dp;
 pub mod graph;
 pub mod greedy;
+pub mod hash;
 pub mod list;
 pub mod misc;
 pub mod search;
