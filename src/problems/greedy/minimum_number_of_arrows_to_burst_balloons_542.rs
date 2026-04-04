@@ -3,7 +3,7 @@ pub fn find_min_arrow_shots(points: Vec<Vec<i32>>) -> i32 {
     let n = points.len();
     let mut points = points;
     // 按结束从先到后排序
-    points.sort_unstable_by_key(|val| (val[1]));
+    points.sort_unstable_by_key(|val| val[1]);
 
     let mut count = 1;
     let mut cur_point = &points[0];

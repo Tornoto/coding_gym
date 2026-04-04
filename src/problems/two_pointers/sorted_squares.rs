@@ -1,34 +1,43 @@
-/// https://leetcode.cn/problems/squares-of-a-sorted-array/
-pub fn sorted_squares(nums: Vec<i32>) -> Vec<i32> {
-    let n = nums.len();
-    let mut result = vec![0; n];
+use crate::Solution;
 
-    let mut left = 0;
-    let mut right = n;
-    let mut cur = n - 1;
+impl Solution {
+    /// https://leetcode.cn/problems/squares-of-a-sorted-array/
+    pub fn sorted_squares(nums: Vec<i32>) -> Vec<i32> {
+        let n = nums.len();
+        let mut result = vec![0; n];
 
-    while left < right {
-        let vl = nums[left] * nums[left];
-        let vr = nums[right - 1] * nums[right - 1];
-
-        if vl > vr {
-            result[cur] = vl;
-            left += 1;
-        } else {
-            result[cur] = vr;
-            right -= 1;
+        if n == 0 {
+            return result;
         }
-        if cur > 0 {
-            cur -= 1;
+
+        let mut left = 0;
+        let mut right = nums.len() - 1;
+
+        for idx in (0..nums.len()).rev() {
+            let left_square = nums[left] * nums[left];
+            let right_square = nums[right] * nums[right];
+
+            if left_square >= right_square {
+                result[idx] = left_square;
+                left += 1;
+            } else {
+                result[idx] = right_square;
+                right -= 1;
+            }
         }
+
+        result
     }
-
-    result
 }
 
-#[test]
-fn test() {
-    let nums = vec![-4, -1, 0, 2, 3];
-    let result = sorted_squares(nums);
-    assert_eq!(result, vec![0, 1, 4, 9, 16]);
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn test() {
+        let nums = vec![-4, -1, 0, 2, 3];
+        let result = Solution::sorted_squares(nums);
+        assert_eq!(result, vec![0, 1, 4, 9, 16]);
+    }
 }

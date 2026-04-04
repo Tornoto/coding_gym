@@ -1,55 +1,79 @@
-#[allow(unused)]
-/// https://leetcode.com/problems/reverse-words-in-a-string/
-/// basic idea:
-/// suppose we have string like: '---hello--world!--' (use - to replace space)
-/// we first reverse the whole sentence and get
-/// '--!dlrow--olleh---' then we flip '--!dlrow' and get
-/// 'world!----olleh---' then we flip '---olleh' and get
-/// 'world! hello------' then we try to flip the rest
-/// finally we trim the spaces at the end.
-pub fn reverse_words(s: String) -> String {
-    println!("full len: {:?}", s.len());
-    let mut words: Vec<char> = s.chars().rev().collect();
+use crate::Solution;
 
-    let mut start: usize = 0;
-    let end = words.len();
+impl Solution {
+    /// https://leetcode.com/problems/reverse-words-in-a-string/
+    pub fn reverse_words(s: String) -> String {
+        // 辅助函数
+        fn reverse_range(bytes: &mut [u8], start: usize, end: usize) {
+            if start >= end {
+                return;
+            }
 
-    while start < end {
-        // TODO!
-        // find_first_space_after_none_space can be improved to count space in accumulation.
-        // and fsans do not need to go back to fsans - space_count + 1
-        let (space_count, fsans) = find_first_space_after_none_space(&words, start);
-        words[start..fsans].reverse();
-        println!("itr: {:?}|", words.clone().into_iter().collect::<String>());
-        start = fsans - space_count + 1;
-        println!("start, fsans: {:?}", (start, fsans));
-        if fsans == end && words[fsans - 1] == ' ' {
-            break;
+            let mut i = start;
+            let mut j = end - 1; // j 指向有效区间的最后一个元素
+
+            // 修正点：比较 i 和 j，而不是固定的 start
+            while i < j {
+                bytes.swap(i, j);
+                i += 1;
+                j -= 1;
+            }
         }
-    }
 
-    for last_none_space in (0..end).rev() {
-        if words[last_none_space] != ' ' {
-            words.truncate(last_none_space + 1);
-            break;
+        fn remove_extra_spaces(s: &mut String) {
+            let bytes = unsafe { s.as_bytes_mut() };
+            // slow pointer
+            let mut write_idx = 0;
+            // mark whether is space of new word
+            // (used to reserve a single space between words)
+            let mut prev_is_space = true;
+
+            for i in 0..bytes.len() {
+                let byte = bytes[i];
+
+                if byte == b' ' {
+                    if prev_is_space {
+                        continue;
+                    }
+                    prev_is_space = true;
+                } else {
+                    prev_is_space = false;
+                }
+
+                bytes[write_idx] = byte;
+                write_idx += 1;
+            }
+
+            // the loop above will keep a space after a word
+            // we need to get rid of it
+            if write_idx > 0 && bytes[write_idx - 1] == b' ' {
+                write_idx -= 1;
+            }
+
+            s.truncate(write_idx);
         }
-    }
-    words.into_iter().collect()
-}
 
-fn find_first_space_after_none_space(s: &[char], start: usize) -> (usize, usize) {
-    // skip starting spaces
-    let mut idx = start;
-    let mut space_count: usize = 0;
-    while idx < s.len() && s[idx] == ' ' {
-        space_count += 1;
-        idx += 1;
-    }
+        let mut word = s;
 
-    while idx < s.len() && s[idx] != ' ' {
-        idx += 1;
+        // 去除多余空格
+        remove_extra_spaces(&mut word);
+
+        // 整体反转
+        let len = word.len();
+        let mut bytes = unsafe { word.as_bytes_mut() };
+        reverse_range(&mut bytes, 0, len);
+
+        // 局部翻转
+        let mut start = 0;
+        for i in 0..=len {
+            if i == len || bytes[i] == b' ' {
+                reverse_range(&mut bytes, start, i);
+                start = i + 1;
+            }
+        }
+
+        word
     }
-    (space_count, idx)
 }
 
 #[cfg(test)]
@@ -58,8 +82,9 @@ mod test {
 
     #[test]
     fn test_reverse_words() {
-        let words = String::from(" hello world!  from rust abc  abc ");
-        let res = reverse_words(words);
+        let words = String::from("the sky is blue");
+        let res = Solution::reverse_words(words);
         println!("res: {:?}|", res);
+        assert_eq!(res, "blue is sky the");
     }
 }

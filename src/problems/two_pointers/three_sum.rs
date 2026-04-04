@@ -1,106 +1,60 @@
-pub fn three_sum(nums: Vec<i32>) -> Vec<Vec<i32>> {
-    if nums.len() < 3 {
-        return vec![];
-    }
+use crate::Solution;
 
-    let mut nums = nums;
-    nums.sort();
-
-    let mut res: Vec<Vec<i32>> = vec![];
-
-    let mut start: usize = 0;
-
-    // prune: if nums[0] > 0 means no solution
-    if nums[start] > 0 {
-        return res;
-    }
-
-    while start < nums.len() - 2 {
-        // skip same number for start, pay attention to condition: start > 0
-        // without this condition, solution like [0,0,0] will be ignored
-        // aslo do not need to use a inner while to skip,
-        // use if continue, and the outer while will help you skip
-        if start > 0 && nums[start] == nums[start - 1] {
-            start += 1;
-            continue;
-        }
-        let mut p1: usize = start + 1;
-        let mut p2: usize = nums.len();
-        while p1 < p2 - 1 {
-            let sum = nums[start] + nums[p1] + nums[p2 - 1];
-            // if sum != 0, there is no need to skip same number for p1 or p2
-            // as next loop will find sum != 0 and will move p1 or p2
-            if sum > 0 {
-                p2 -= 1;
-            } else if sum < 0 {
-                p1 += 1;
-            } else {
-                let sub_res = vec![nums[start], nums[p1], nums[p2 - 1]];
-                res.push(sub_res);
-                while p2 > 2 && nums[p2 - 2] == nums[p2 - 1] {
-                    p2 -= 1;
-                }
-                p2 -= 1;
-                while p1 < nums.len() - 1 && nums[p1 + 1] == nums[p1] {
-                    p1 += 1;
-                }
-                p1 += 1;
-            }
-        }
-        start += 1;
-    }
-
-    res
-}
-
-pub fn three_sum2(nums: Vec<i32>) -> Vec<Vec<i32>> {
-    if nums.len() < 3 {
-        return vec![];
-    }
-    let mut nums = nums;
-    nums.sort_unstable();
-
-    let mut start = 0;
-
-    let mut result = vec![];
-    while start < nums.len() - 2 {
-        // 提前退出
-        if nums[start] > 0 {
+impl Solution {
+    pub fn three_sum(nums: Vec<i32>) -> Vec<Vec<i32>> {
+        let len = nums.len();
+        let mut result = vec![];
+        if len < 3 {
             return result;
         }
-        let mut left = start + 1;
-        let mut right = nums.len() - 1;
-        while left < right {
-            let sum = nums[start] + nums[left] + nums[right];
-            if sum == 0 {
-                result.push(vec![nums[start], nums[left], nums[right]]);
 
-                while right > 1 && nums[right - 1] == nums[right] {
+        let mut nums = nums;
+        // must sort first
+        nums.sort_unstable();
+
+        for i in 0..len - 2 {
+            // 如果第一个数大于0，后面肯定都大于0，直接结束
+            if nums[i] > 0 {
+                break;
+            }
+            // 跳过重复元素
+            if i > 0 && nums[i] == nums[i - 1] {
+                continue;
+            }
+            let mut left = i + 1;
+            let mut right = len - 1;
+
+            while left < right {
+                let sum = nums[i] + nums[left] + nums[right];
+
+                if sum == 0 {
+                    result.push(vec![nums[i], nums[left], nums[right]]);
+
+                    // 跳过左侧重复元素
+                    // 使用 left < right 防止越界
+                    while left < right && nums[left] == nums[left + 1] {
+                        left += 1;
+                    }
+                    // 跳过右侧重复元素
+                    while left < right && nums[right] == nums[right - 1] {
+                        right -= 1;
+                    }
+
+                    // 移动指针寻找下一组解
+                    left += 1;
+                    right -= 1;
+                } else if sum < 0 {
+                    left += 1;
+                } else {
                     right -= 1;
                 }
-                right -= 1;
-
-                while left < nums.len() - 1 && nums[left + 1] == nums[left] {
-                    left += 1;
-                }
-                left += 1;
-            } else if sum > 0 {
-                // 没必要跳过重复的元素。因为即使不跳过，下次循环进来发现sum>0,也会继续移动
-                // 这和提前移动去除重复元素的效率是一样的
-                right -= 1;
-            } else {
-                left += 1;
             }
         }
-        // the start pointer moves right and skips elements of the same value
-        while start < nums.len() - 2 && nums[start + 1] == nums[start] {
-            start += 1;
-        }
-        start += 1;
-    }
 
-    result
+        result
+    }
 }
+
 #[cfg(test)]
 mod test {
     use super::*;
@@ -108,19 +62,23 @@ mod test {
     #[test]
     fn test_three_sum() {
         let nums = vec![-1, 0, 1, 2, -1, -4];
-        let res = three_sum2(nums);
+        let res = Solution::three_sum(nums);
         println!("{:?}", res);
         // //
         let nums = vec![0, 1, 1];
-        let res = three_sum2(nums);
+        let res = Solution::three_sum(nums);
         println!("{:?}", res);
 
         let nums = vec![0, 0, 0];
-        let res = three_sum2(nums);
+        let res = Solution::three_sum(nums);
         println!("{:?}", res);
 
         let nums = vec![0, 0, 0, 0];
-        let res = three_sum2(nums);
+        let res = Solution::three_sum(nums);
+        println!("{:?}", res);
+
+        let nums = vec![1, -1, -1, 0];
+        let res = Solution::three_sum(nums);
         println!("{:?}", res);
     }
 }
