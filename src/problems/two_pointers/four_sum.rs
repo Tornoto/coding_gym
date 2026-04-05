@@ -1,5 +1,5 @@
 /// https://leetcode.com/problems/4sum/
-/// pay attention to numberic overflow
+/// pay attention to numeric overflow
 pub fn four_sum(nums: Vec<i32>, target: i32) -> Vec<Vec<i32>> {
     if nums.len() < 4 {
         return vec![];

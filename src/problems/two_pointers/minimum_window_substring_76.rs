@@ -1,3 +1,5 @@
+use crate::Solution;
+
 /// https://leetcode.cn/problems/minimum-window-substring/description/
 ///
 /// This solution is a common and efficient way to solve the "Minimum Window Substring" problem, especially when the character set is limited (like ASCII, which `[0; 128]` implies). Let's break down why it works:
@@ -99,7 +101,7 @@ pub fn min_window(s: String, t: String) -> String {
         // when a leave the window
         while count == 0 {
             // update the min_len and min_start
-            if end - start + 1 > min_len {
+            if end - start + 1 < min_len {
                 min_start = start;
                 min_len = end - start + 1;
             }
@@ -121,15 +123,75 @@ pub fn min_window(s: String, t: String) -> String {
     }
 }
 
-#[test]
-fn test() {
-    let s = "abdbadddcdadbb".to_string();
-    let t = "abcb".to_string();
-    let result = min_window(s, t);
-    println!("result: {}", result);
+impl Solution {
+    /// https://leetcode.cn/problems/minimum-window-substring/description/
+    pub fn min_window(s: String, t: String) -> String {
+        if s.len() < t.len() {
+            return String::new();
+        }
 
-    let s = "a".to_string();
-    let t = "aa".to_string();
-    let result = min_window(s, t);
-    println!("result: {}", result);
+        let s_bytes = s.as_bytes();
+        let t_bytes = t.as_bytes();
+
+        // 映射t中每个字符出现的次数（也可以理解为t需要的每种字符的个数）
+        let mut map = [0; 128];
+        let mut count = t.len();
+
+        let mut start = 0;
+        let mut min_start = 0;
+        let mut min_len = usize::MAX;
+
+        for &byte in t_bytes {
+            map[byte as usize] += 1;
+        }
+
+        for end in 0..s.len() {
+            if map[s_bytes[end] as usize] > 0 {
+                count -= 1;
+            }
+            map[s_bytes[end] as usize] -= 1;
+
+            while count == 0 {
+                if end - start + 1 < min_len {
+                    min_start = start;
+                    min_len = end - start + 1;
+                }
+
+                map[s_bytes[start] as usize] += 1;
+                if map[s_bytes[start] as usize] > 0 {
+                    count += 1;
+                }
+                start += 1;
+            }
+        }
+
+        if min_len == usize::MAX {
+            return String::new();
+        } else {
+            return s[min_start..min_start + min_len].to_string();
+        }
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn test() {
+        let s = "abdbadddcdadbb".to_string();
+        let t = "abcb".to_string();
+        let result = Solution::min_window(s, t);
+        assert_eq!(&result, "cdadbb");
+
+        let s = "a".to_string();
+        let t = "aa".to_string();
+        let result = Solution::min_window(s, t);
+        assert_eq!(&result, "");
+
+        let s = "ADOBECODEBANC".to_string();
+        let t = "ABC".to_string();
+        let result = Solution::min_window(s, t);
+        assert_eq!(&result, "BANC");
+    }
 }

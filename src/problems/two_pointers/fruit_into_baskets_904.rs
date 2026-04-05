@@ -1,44 +1,98 @@
 use std::collections::HashMap;
 
-/// https://leetcode.com/problems/fruit-into-baskets/description/
+use crate::Solution;
 
-pub fn total_fruit(fruits: Vec<i32>) -> i32 {
-    let mut fruit_type_map: HashMap<i32, i32> = HashMap::new();
+impl Solution {
+    /// https://leetcode.com/problems/fruit-into-baskets/description/
+    ///
+    /// 使用滑动窗口 + HashMap 解决水果入篮问题
+    /// 核心思路：维护一个最多包含 2 种水果的最长连续子数组
+    pub fn total_fruit(fruits: Vec<i32>) -> i32 {
+        // HashMap 记录当前窗口内每种水果的数量
+        let mut baskets: HashMap<i32, i32> = HashMap::new();
+        let mut start = 0;
+        let mut max_output = 0;
 
-    let n = fruits.len();
-    let mut start = 0;
-    let mut end = 0;
-    let mut max_output = 0;
-    while end < n {
-        fruit_type_map
-            .entry(fruits[end])
-            .and_modify(|count| *count += 1)
-            .or_insert(1);
+        for end in 0..fruits.len() {
+            // 将当前水果加入篮子
+            baskets
+                .entry(fruits[end])
+                .and_modify(|count| *count += 1)
+                .or_insert(1);
 
-        // 如果加入 end 对应种类的水果后，种类大于两种，
-        // 则应该调整 start 使种类保持为两种
-        while fruit_type_map.len() > 2 {
-            fruit_type_map
-                .entry(fruits[start])
-                .and_modify(|count| *count -= 1);
-            if *fruit_type_map.get(&fruits[start]).unwrap() == 0 {
-                fruit_type_map.remove(&fruits[start]);
+            // 当篮子中水果种类超过 2 种时，收缩左边界
+            while baskets.len() > 2 {
+                // 左边界水果数量减 1
+                baskets.entry(fruits[start]).and_modify(|count| *count -= 1);
+                // 如果某种水果数量归零，从篮子中移除
+                if *baskets.get(&fruits[start]).unwrap() == 0 {
+                    baskets.remove(&fruits[start]);
+                }
+                start += 1;
             }
-            start += 1;
+
+            // 此时窗口合法（最多 2 种水果），更新最大值
+            max_output = max_output.max(end - start + 1);
         }
 
-        // 如果种类小于等于两种，则更新ouput
-        if fruit_type_map.len() <= 2 {
-            max_output = max_output.max(end - start + 1);
-            end += 1;
-        }
+        max_output as i32
     }
-    max_output as i32
+
+    /// 滑动窗口状态机优化版
+    pub fn total_fruit_improved(fruits: Vec<i32>) -> i32 {
+        // 边界处理：长度 ≤2 时直接返回
+        if fruits.len() <= 2 {
+            return fruits.len() as i32;
+        }
+
+        let mut max_len = 0;
+
+        // 篮子状态：记录窗口内两种水果的类型及数量
+        let mut type1 = fruits[0];
+        let mut count1 = 1;
+        // 使用 i32::MIN 作为未初始化哨兵，兼容任意 i32 输入且无额外分支开销
+        let mut type2 = i32::MIN;
+        let mut count2 = 0;
+
+        // 滑动窗口辅助状态：记录末尾连续相同水果的类型和长度
+        let mut last_type = fruits[0];
+        let mut last_consecutive = 1;
+
+        for &f in fruits.iter().skip(1) {
+            if f == type1 {
+                count1 += 1;
+            } else if f == type2 {
+                count2 += 1;
+            } else {
+                if last_type == type1 {
+                    type2 = f;
+                    count2 = 1;
+                    count1 = last_consecutive;
+                } else {
+                    type1 = f;
+                    count1 = 1;
+                    count2 = last_consecutive;
+                }
+            }
+            // 更新历史最大值
+            max_len = max_len.max(count1 + count2);
+
+            // 更新末尾连续计数状态
+            if f == last_type {
+                last_consecutive += 1;
+            } else {
+                last_type = f;
+                last_consecutive = 1;
+            }
+        }
+
+        max_len
+    }
 }
 
 #[test]
 fn test() {
     let fruits = vec![1, 2, 1, 3, 3, 3, 3, 3];
-    let total = total_fruit(fruits);
+    let total = Solution::total_fruit(fruits);
     println!("total: {total}");
 }
