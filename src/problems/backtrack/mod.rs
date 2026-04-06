@@ -1,11 +1,13 @@
-pub mod combination;
 pub mod combination_sum_39;
 pub mod combination_sum_ii_40;
 pub mod combination_sum_iii_216;
 pub mod combinations_77;
 pub mod gas_station;
+pub mod letter_combinations_of_a_phone_number_17;
 pub mod n_queens_51;
 pub mod non_decreasing_subsequences_491;
 pub mod palindrome_partitioning;
+pub mod permutations_46;
+pub mod permutations_ii_47;
 pub mod subset2;
 pub mod subsets_78;

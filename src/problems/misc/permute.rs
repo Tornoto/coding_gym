@@ -25,3 +25,14 @@ pub fn swap(nums: &mut Vec<i32>, pos1: usize, pos2: usize) {
     nums[pos1] = nums[pos2];
     nums[pos2] = tmp;
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_permute() {
+        let result = permute(vec![1, 2, 3]);
+        println!("{:?}", result);
+    }
+}

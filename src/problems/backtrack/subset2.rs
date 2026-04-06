@@ -1,34 +1,65 @@
-/// https://leetcode.com/problems/subsets-ii/description/
-pub fn subsets_with_dup(nums: Vec<i32>) -> Vec<Vec<i32>> {
-    if nums.is_empty() {
-        return vec![];
+use crate::Solution;
+
+impl Solution {
+    /// https://leetcode.com/problems/subsets-ii/description/
+    pub fn subsets_with_dup_recursive(nums: Vec<i32>) -> Vec<Vec<i32>> {
+        fn backtrack(
+            nums: &[i32],
+            start: usize,
+            subset: &mut Vec<i32>,
+            result: &mut Vec<Vec<i32>>,
+        ) {
+            result.push(subset.clone());
+
+            for idx in start..nums.len() {
+                if idx > start && nums[idx] == nums[idx - 1] {
+                    continue;
+                }
+                subset.push(nums[idx]);
+                backtrack(nums, idx + 1, subset, result);
+                subset.pop();
+            }
+        }
+
+        let mut nums = nums;
+        // 排序
+        nums.sort();
+
+        let mut result = vec![];
+        let mut subset = vec![];
+
+        backtrack(&nums, 0, &mut subset, &mut result);
+
+        result
     }
 
-    let mut nums = nums;
-    // sort!
-    nums.sort();
+    pub fn subsets_with_dup_iter(mut nums: Vec<i32>) -> Vec<Vec<i32>> {
+        // 排序
+        nums.sort();
+        let mut result = vec![vec![]];
+        // 记录上一轮新增子集的起始索引
+        let mut start_idx = 0;
 
-    let mut result = vec![];
-    let mut path = vec![];
-    subsets2_backtracing(&nums, 0, &mut result, &mut path);
+        for i in 0..nums.len() {
+            // 如果是重复元素，只能从上一轮新增的子集开始扩展
+            let begin = if i > 0 && nums[i] == nums[i - 1] {
+                start_idx
+            } else {
+                0
+            };
 
-    result
-}
+            let end = result.len();
+            // 更新边界：本轮新增的子集将从 end 开始
+            start_idx = end;
 
-fn subsets2_backtracing(
-    nums: &[i32],
-    start: usize,
-    result: &mut Vec<Vec<i32>>,
-    path: &mut Vec<i32>,
-) {
-    result.push(path.clone());
-    for idx in start..nums.len() {
-        // skip when same with previous value
-        if idx > start && nums[idx] == nums[idx - 1] {
-            continue;
+            // 遍历指定范围，生成新子集
+            for j in begin..end {
+                let mut new_subset = result[j].clone();
+                new_subset.push(nums[i]);
+                result.push(new_subset);
+            }
         }
-        path.push(nums[idx]);
-        subsets2_backtracing(nums, idx + 1, result, path);
-        path.pop();
+
+        result
     }
 }

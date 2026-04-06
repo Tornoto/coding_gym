@@ -43,11 +43,11 @@ fn partition_helper(s: &str, result: &mut Vec<Vec<String>>, parts: &mut Vec<Stri
 }
 
 #[cfg(test)]
-pub mod test {
+pub mod tests {
     use super::*;
 
     #[test]
-    fn test_parition() {
+    fn test_partition() {
         let s = "aab";
         let result = partition(s.to_string());
         println!(">> {:?}", result);
